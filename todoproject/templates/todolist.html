@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+          }
+          
+          h1 {
+            text-align: center;
+            font-style: italic;
+            color: #333;
+            margin-top: 50px;
+            opacity: 0; /* Set initial opacity to 0 */
+            animation: fade-in 1s ease-in-out forwards; /* Apply the fade-in animation */
+          }
+          
+          @keyframes fade-in {
+            0% {
+              opacity: 0; /* Start with opacity 0 */
+            }
+            100% {
+              opacity: 1; /* End with opacity 1 */
+            }
+          }
+          
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        background-color: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      form {
+        display: inline-block;
+        margin-left: 10px;
+      }
+      input[type="text"] {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      input[type="submit"] {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      input[type="submit"]:hover {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My To-Do List</h1>
+    <ul>
+      {% for i in all_items %}
+      <li>{{ i.content }}
+        <span class="time">{{ i.time }}</span>
+        <form action="/deleteTodoItem/{{ i.id }}/" method="post">{% csrf_token %}
+          <input type="submit" value="Delete">
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    <form action="/addTodoItem/" method="post">{% csrf_token %}
+      <input type="text" name="content">
+      <input type="submit" value="Add To-Do Item">
+    </form>
+  </body>
+</html>
